@@ -48,12 +48,20 @@
   margin: 5px;
 }
 #btnSgnUp{
-
-}
-#btnSgnUp:hover{
+  width: 65%;
+  border: 1px solid #0099FF;
+  padding: 15px;
+  text-align: center;
+  background: whitesmoke;
+  margin: 5px;
   background: #0099FF;
   color: white;
   cursor: pointer;
+  /*font-weight: bold;*/
+
+}
+#btnSgnUp:hover{
+  border: 1px solid gray;
 
 }
 
@@ -85,15 +93,16 @@
           <option value="customer">Car buyer</option>
           <option value="dealer">Car Seller</option>
         </select><br/>
-        <input id="btnSgnUp" name="signUp" type="button" value="Sign Up"/>
+
+        <button id="btnSgnUp" name="signUp" type="submit" value="">Sign Up</button>
     </form>
 
     <?php
       //
-      include 'php/phpFunctions.php';
-      $user = new User();
-      //$createNewCutomer = $user->createNewCutomer();
-      $user->createNewCutomer();
+      //include 'php/phpFunctions.php';
+      $customer = new Customer();
+      //$createNewCutomer = $customer->createNewCutomer();
+      $customer->createNewCutomer("Value");
 
      ?>
 

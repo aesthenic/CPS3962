@@ -54,12 +54,19 @@
    margin: 5px;
  }
  #btnSgnIn{
-
- }
- #btnSgnIn:hover{
+   width: 65%;
+   border: 1px solid #0099FF;
+   padding: 15px;
+   text-align: center;
+   background: whitesmoke;
+   margin: 5px;
    background: #0099FF;
    color: white;
    cursor: pointer;
+   /*font-weight: bold;*/
+ }
+ #btnSgnIn:hover{
+   border: 1px solid gray;
 
  }
   #indBottom{
@@ -83,8 +90,18 @@
 
          <input id="" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
          <input id="" type="text" title="Enter your account password" placeholder="******" /><br/>
-         <input id="btnSgnIn" type="button" value="Sign In"/>
+
+         <button id="btnSgnIn" name="signIn" type="submit" value="">Sign In</button>
        </form>
+
+       <?php
+         //
+         //include 'php/phpFunctions.php';
+         $customer = new Customer();
+         //$createNewCutomer = $customer->createNewCutomer();
+         $customer->getCustomerInfo();
+
+        ?>
 
        <a href="register.php" style="color: white; font-size: 10px;">I don't have an account</a>
 

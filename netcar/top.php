@@ -1,5 +1,5 @@
 
-<?php //include ('php\phpFunctions.php'); ?>
+<?php include ('php/phpFunctions.php'); ?>
 
 <html>
 <head>
