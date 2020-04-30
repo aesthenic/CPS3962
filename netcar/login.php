@@ -88,18 +88,65 @@
 
    <form id="searchForm" action="" method="post">
 
-         <input id="" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
-         <input id="" type="text" title="Enter your account password" placeholder="******" /><br/>
+         <input id="" name="email" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
+         <input id="" name="pwd" type="text" title="Enter your account password" placeholder="******" /><br/>
 
          <button id="btnSgnIn" name="signIn" type="submit" value="">Sign In</button>
        </form>
 
        <?php
-         //
+         // Sign In a Customer / a Car Dealer
          //include 'php/phpFunctions.php';
-         $customer = new Customer();
-         //$createNewCutomer = $customer->createNewCutomer();
-         $customer->getCustomerInfo();
+
+         if(isset($_POST['signIn'])){
+             // Check and Get the input values
+             //if(isset($_POST['email']) && isset($_POST['pwd'])){
+               //
+               //if(!empty($_POST['email']) && !empty($_POST['pwd'])){
+                 // Check the input values are ok
+               $email = trim(htmlentities ($_POST['email'], ENT_QUOTES));
+               $pwd = htmlentities ($_POST['pwd'], ENT_QUOTES);
+
+                   // Check first if the user is a customer
+                     // Declare the object
+                     $customer = new Customer();
+                     $userCustomer = $customer->SignInCustomer($email, $pwd);
+
+                     // In case the user is a customer
+                     if($userCustomer){
+                       // Initialiaze Customer session
+                       // foreach ($data as $value) {
+                       //   // code...
+                       //   echo $value['nameCust']."<br>";
+                       //   echo $value['adrCust']."<br>";
+                       // }
+?>
+                        <script> window.location.href = 'profile.php'; </script>
+<?php
+                    }else {
+
+                       // Check if the user is a Dealer
+                        $dealer = new Dealer();
+                        $userDealer = $dealer->SignInDealer($email, $pwd);
+
+                     // In case the user is a car dealer
+                      if($userDealer){
+                        // Initialiaze Dealer session
+
+?>
+                        <script> window.location.href = 'dealer.php'; </script>
+<?php
+                      }else{
+                        // Error in Email or Password
+ ?>
+                        <script> alert("Your Email or Password is incorrect"); </script>
+ <?php
+                      }
+
+                     }
+      //  }
+      //  }
+       }
 
         ?>
 

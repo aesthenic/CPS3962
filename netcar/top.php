@@ -1,4 +1,3 @@
-
 <?php include ('php/phpFunctions.php'); ?>
 
 <html>

@@ -85,11 +85,11 @@
 
   <form id="searchForm" action="" method="post">
 
-        <input id="" type="text" title="Enter your Full name" placeholder="Username" /><br/>
-        <input id="" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
-        <input id="" type="text" title="Create your account password" placeholder="******" /><br/>
-        <input id="" type="text" title="Confirm your account password" placeholder="******" /><br/>
-        <select id="" title="What type of user are you?">
+        <input id="" name="name" type="text" title="Enter your Username" placeholder="Username" /><br/>
+        <input id="" name="email" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
+        <input id="" name="pwd" type="text" title="Create your account password" placeholder="******" /><br/>
+        <input id="" name="pwdCheck" type="text" title="Confirm your account password" placeholder="******" /><br/>
+        <select id="" name="type" title="What type of user are you?">
           <option value="customer">Car buyer</option>
           <option value="dealer">Car Seller</option>
         </select><br/>
@@ -98,11 +98,49 @@
     </form>
 
     <?php
-      //
+      // Sign Up a new Customer / a new Car Dealer
       //include 'php/phpFunctions.php';
-      $customer = new Customer();
-      //$createNewCutomer = $customer->createNewCutomer();
-      $customer->createNewCutomer("Value");
+
+      if(isset($_POST['signUp'])){
+        // Check that both passwords are the same value
+        if(($_POST['pwd']) != ($_POST['pwdCheck'])){
+?>
+              <script> alert("Both passwords should match"); </script>
+<?php
+        }else{
+          // Check and Get the input values
+          //if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['pwd']) && isset($_POST['pwdCheck']) isset($_POST['type'])){
+            //
+            //if(!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['pwd']) && !empty($_POST['pwdCheck']) !empty($_POST['type'])){
+              // Check the input values are ok
+          if(strlen($_POST['name']) > 1 && preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", ($_POST['email'])) &&  strlen($_POST['pwd']) > 3 ){
+            //
+            $username = trim(htmlentities ($_POST['name'], ENT_QUOTES));
+            $email = trim(htmlentities ($_POST['email'], ENT_QUOTES));
+            $pwd = htmlentities ($_POST['pwd'], ENT_QUOTES);
+            //$pwdCheck = htmlentities ($_POST['pwdCheck'], ENT_QUOTES);
+            //$type = trim(htmlentities ($_POST['type'], ENT_QUOTES));
+
+                // In case the user is a customer
+                if(($_POST['type']) == "customer"){
+                  // Declare the object
+                  $customer = new Customer();
+                  //$createNewCutomer = $customer->createNewCutomer();
+                  $customer->signUpCustomer($username, $email, $pwd);
+                }
+                  // The user is definetly a Car dealer
+                  if(($_POST['type']) == "dealer"){
+                    //echo "Programers are working on this";
+                    // Declare the object
+                    $dealer = new Dealer();
+                    //$createNewCutomer = $customer->createNewCutomer();
+                    $dealer->signUpDealer($username, $email, $pwd);
+                }
+         }
+    //  }
+   //  }
+      }
+    }
 
      ?>
 

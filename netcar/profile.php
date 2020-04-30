@@ -1,4 +1,13 @@
+<?php
+// Inialize session
+session_start();
 
+// Check, if user is not logged in, we send him to the homepage
+if (!isset($_SESSION['userID'])){
+
+  //header("Location: index.php");
+}
+?>
 <html>
 <head>
   <title>NetCar</title>
@@ -215,25 +224,25 @@ body{
     <br/>
 
 
-    <div class="" style="float: left; margin: 5px; border: 1px solid gray; border-radius: 0; border-bottom: 2px solid gray; width: 45%">
+    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
       <img src="img/car.jpg" style="width: 100%; "/>
       <br/><br/>
       <div style=" font-weight: bold; font-size: 10; padding: 10; ">$150, 000</div>
     </div>
 
-    <div class="" style="float: left; margin: 5px; border: 1px solid gray; border-radius: 0; border-bottom: 2px solid gray;  width: 45%">
+    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
       <img src="img/car2.jpg" style="width: 100%; "/>
       <br/><br/>
       <div style=" font-weight: bold; font-size: 10; padding: 10; ">$200, 000</div>
     </div>
 
-    <div class="" style="float: left; margin: 5px; border: 1px solid gray; border-radius: 0; border-bottom: 2px solid gray;  width: 45%">
+    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
       <img src="img/indexMustang.jpg" style="width: 100%; "/>
       <br/><br/>
       <div style=" font-weight: bold; font-size: 10; padding: 10; ">$70, 000</div>
     </div>
 
-    <div class="" style="float: left; margin: 5px; border: 1px solid gray; border-radius: 0; border-bottom: 2px solid gray;  width: 45%">
+    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
       <img src="img/car3.jpg" style="width: 100%; "/>
       <br/><br/>
       <div style=" font-weight: bold; font-size: 10; padding: 10; ">$30, 000</div>
@@ -250,10 +259,11 @@ body{
     <br/>
     <label style="color: black; font-weight: bold; font-size: 11 ; ">Ads</label>
     <br/><br/>
-    <div class="" style="border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray;">
+
+    <div class="" style="border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; background: white; ">
       <img src="img/ad.jpg" style="width: 100%; "/>
       <br/><br/>
-      <div style=" font-weight: bold; font-size: 10; padding-top: 10; padding-bottom: 10; ">Get a new rim today for a 15% off. Hurry up and call +1(999) 999 9999</div>
+      <div style=" font-weight: bold; font-size: 10; padding: 10; padding-bottom: 10; ">Get a new rim today for a 15% off. Hurry up and call +1(999) 999 9999</div>
     </div>
   </div>
 
