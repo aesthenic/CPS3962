@@ -1,4 +1,17 @@
+<?php
+// Inialize session
+session_start();
 
+// Check, if the user is already logged in, then jump to the right page
+// Customer
+if (isset($_SESSION['customerID'])){
+header('Location: profile.php');
+}
+// Dealer
+if (isset($_SESSION['dealerID'])){
+header('Location: dealer.php');
+}
+?>
 <html>
 <head>
   <title>Welcome to NetCar</title>
@@ -87,9 +100,10 @@
 
         <input id="" name="name" type="text" title="Enter your Username" placeholder="Username" /><br/>
         <input id="" name="email" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
-        <input id="" name="pwd" type="text" title="Create your account password" placeholder="******" /><br/>
-        <input id="" name="pwdCheck" type="text" title="Confirm your account password" placeholder="******" /><br/>
+        <input id="" name="pwd" type="password" title="Create your account password" placeholder="******" /><br/>
+        <input id="" name="pwdCheck" type="password" title="Confirm your account password" placeholder="******" /><br/>
         <select id="" name="type" title="What type of user are you?">
+          <option value=""></option>
           <option value="customer">Car buyer</option>
           <option value="dealer">Car Seller</option>
         </select><br/>
@@ -97,7 +111,7 @@
         <button id="btnSgnUp" name="signUp" type="submit" value="">Sign Up</button>
     </form>
 
-    <?php
+<?php
       // Sign Up a new Customer / a new Car Dealer
       //include 'php/phpFunctions.php';
 
@@ -113,7 +127,7 @@
             //
             //if(!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['pwd']) && !empty($_POST['pwdCheck']) !empty($_POST['type'])){
               // Check the input values are ok
-          if(strlen($_POST['name']) > 1 && preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", ($_POST['email'])) &&  strlen($_POST['pwd']) > 3 ){
+          if(strlen($_POST['name']) > 1 && preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", ($_POST['email'])) &&  strlen($_POST['pwd']) > 3 &&  strlen($_POST['type']) > 5){
             //
             $username = trim(htmlentities ($_POST['name'], ENT_QUOTES));
             $email = trim(htmlentities ($_POST['email'], ENT_QUOTES));
@@ -141,8 +155,7 @@
    //  }
       }
     }
-
-     ?>
+?>
 
       <a href="login.php" style="color: white; font-size: 10px;">I already have an account</a>
 

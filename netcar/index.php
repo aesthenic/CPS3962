@@ -1,4 +1,17 @@
+<?php
+// Inialize session
+session_start();
 
+// Check, if the user is already logged in, then jump to the right page
+// Customer
+if (isset($_SESSION['customerID'])){
+header('Location: profile.php');
+}
+// Dealer
+if (isset($_SESSION['dealerID'])){
+header('Location: dealer.php');
+}
+?>
 <html>
 <head>
   <title>Welcome to NetCar</title>
@@ -52,7 +65,6 @@ body{
   margin-left: -5px;
   cursor: pointer;
   color: white;
-  font-weight: bold;
 
 }
 #mainBody3{
@@ -105,7 +117,7 @@ body{
     </div>
 </div>
 
-<div id="mainBody3" style="height: 50%; ">
+<div id="mainBody3" style="display: none;  ">
 
   <div class="left">gghljgkjkjk</div>
 

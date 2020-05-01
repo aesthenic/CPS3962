@@ -2,11 +2,15 @@
 // Inialize session
 session_start();
 
-// Check, if user is not logged in, we send him to the homepage
-if (!isset($_SESSION['userID'])){
-
-  //header("Location: index.php");
+// Check, if the user is already logged in, then jump to the right page
+// Customer
+if (!isset($_SESSION['customerID'])){
+header('Location: login.php');
 }
+// Dealer
+// if (!isset($_SESSION['dealerID'])){
+// header('Location: index.php');
+// }
 ?>
 <html>
 <head>
@@ -173,9 +177,20 @@ body{
 
 <div id="mainBody2">
 
-  <div class="avatar">FL</div>
+  <div class="avatar">
+<?php
+ // Generate name initials
+$words = explode(" ", $_SESSION['nameCust']);
+$initials = null;
+foreach ($words as $w) {
+     $initials .= $w[0];
+}
+//
+echo $initials;
+?>
+  </div>
 
-  <div class="avatarName">Firstname Lastname</div>
+  <div class="avatarName"><?php echo $_SESSION['nameCust']; ?></div>
 
   <div style="padding:10; border-bottom: 1px solid whitesmoke; ">union, NJ</div>
 

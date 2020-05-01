@@ -1,4 +1,17 @@
+<?php
+// Inialize session
+session_start();
 
+// Check, if the user is already logged in, then jump to the right page
+// // Customer
+// if (!isset($_SESSION['customerID'])){
+// header('Location: index.php');
+// }
+// If Dealer session does not exist, go back to login page
+if (!isset($_SESSION['dealerID'])){
+header('Location: login.php');
+}
+?>
 <html>
 <head>
   <title>NetCar</title>
@@ -164,9 +177,20 @@ body{
 
 <div id="mainBody2">
 
-  <div class="avatar">FL</div>
+  <div class="avatar">
+    <?php
+     // Generate name initials
+    $words = explode(" ", $_SESSION['nameDealer']);
+    $initials = null;
+    foreach ($words as $w) {
+         $initials .= $w[0];
+    }
+    //
+    echo $initials;
+    ?>
+  </div>
 
-  <div class="avatarName">Firstname Lastname</div>
+  <div class="avatarName"><?php echo $_SESSION['nameDealer']; ?></div>
 
   <div style="padding:10; border-bottom: 1px solid whitesmoke; ">union, NJ</div>
 

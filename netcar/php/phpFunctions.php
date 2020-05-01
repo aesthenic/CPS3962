@@ -30,7 +30,7 @@ class DBConnection{
 
     protected function dbClose(){
 
-      // Close the DB fann_get_total_connections
+      // Close the DB Connection
       mysqli_close($this->conn);
     }
 
@@ -93,19 +93,31 @@ class Customer extends DBConnection{
                   // If the query was successful, then prepare and load the profile page
                   if($result2){
                     //we'll start the sessions informations here
-                    //$_SESSION['userID'] = $donnees['customerID'];
-                    //$_SESSION['username'] = $donnees['name'];
-                    //$_SESSION['date_notif_news'] = '0000-00-00 00:00:00';
-
+                    $userCustomer = $this->SignInCustomer($email, $pwd);
+                    //var_dump($userCustomer);
+                    if($userCustomer){
+                      // Initialiaze Customer session
+                      //var_dump($userCustomer);
+                       foreach ($userCustomer as $row) {
+                        // code...
+                        //echo $row['customerID']."<br>";
+                        //we'll start the sessions informations here
+                        $_SESSION['customerID'] = $row['customerID'];
+                        $_SESSION['nameCust'] = $row['nameCust'];
+                      }
+?>
+                       <script> window.location.href = 'profile.php'; </script>
+<?php
+                   }
                     // Return profile
                     //echo "ACCOUNT CREATED";
                     //header("Location: profile.php");
 ?>
-                    <script> window.location.href = 'profile.php'; </script>
+                    <script> //window.location.href = 'profile.php'; </script>
 <?php
                   }else{
 ?>
-                      <script> alert("We were unable to create your account. Please check your Internet connection and retry"); </script>
+                      <script> alert("We were unable to create your account. Please check your Internet connection"); </script>
 <?php
                   }
               }
@@ -118,6 +130,8 @@ class Customer extends DBConnection{
     // Method to signIn a customer
     public function SignInCustomer($email, $pwd){
       //
+      $data = null;
+      //
       $sql1 = "SELECT * FROM `customer` WHERE `emailCust` = '$email' AND `passwordCust` = '$pwd'";
       //
       $result = $this->dbConnect()->query($sql1);
@@ -129,14 +143,17 @@ class Customer extends DBConnection{
         //
         if($row = $result->fetch_assoc()){
         $data[] = $row;
-        return $data;
+        // return $data;
       }
       }
+
+      return $data;
     }
 
     // Method to retrieve customer row information from the DB
     public function getCustomerInfo(){
-
+      //
+      $data = null;
       $sql = "SELECT * FROM `customer`";
       // Method dbConnect of the class DBConnection
       $result = $this->dbConnect()->query($sql);
@@ -158,6 +175,7 @@ class Customer extends DBConnection{
           }
 */
         }
+        // Return the data of the customer info
         return $data;
       }
     }
@@ -223,19 +241,31 @@ class Customer extends DBConnection{
                    // If the query was successful, then prepare and load the profile page
                    if($result2){
                      //we'll start the sessions informations here
-                     //$_SESSION['userID'] = $donnees['customerID'];
-                     //$_SESSION['username'] = $donnees['name'];
-                     //$_SESSION['date_notif_news'] = '0000-00-00 00:00:00';
-
+                     $userDealer = $this->SignInDealer($email, $pwd);
+                     //var_dump($userDealer);
+                      if($userDealer){
+                        // Initialiaze Dealer session
+                        //var_dump($userDealer);
+                         foreach ($userDealer as $row) {
+                          // code...
+                          //echo $row['dealerID']."<br>";
+                          //we'll start the sessions informations here
+                          $_SESSION['dealerID'] = $row['dealerID'];
+                          $_SESSION['nameDealer'] = $row['nameDealer'];
+                        }
+?>
+                        <script> window.location.href = 'dealer.php'; </script>
+<?php
+                      }
                      // Return profile
                      //echo "ACCOUNT CREATED";
                      //header("Location: profile.php");
  ?>
-                     <script> window.location.href = 'dealer.php'; </script>
+                     <script> //window.location.href = 'dealer.php'; </script>
  <?php
                    }else{
  ?>
-                       <script> alert("We were unable to create your account. Please check your Internet connection and retry"); </script>
+                       <script> alert("We were unable to create your account. Please check your Internet connection"); </script>
  <?php
                    }
                }
@@ -247,6 +277,9 @@ class Customer extends DBConnection{
 
    // Method to sign In a Car Dealer
    public function SignInDealer($email, $pwd){
+
+     //
+     $data = null;
      //
      $sql1 = "SELECT * FROM `dealer` WHERE `emailDealer` = '$email' AND `passwordDealer` = '$pwd'";
      //
@@ -259,9 +292,10 @@ class Customer extends DBConnection{
        //
        if($row = $result->fetch_assoc()){
        $data[] = $row;
-       return $data;
      }
      }
+     // Return the data of the dealer info
+     return $data;
    }
 
 

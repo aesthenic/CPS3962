@@ -3,9 +3,11 @@
 <html>
 <head>
   <script type="text/javascript">
-/*   setTimeout(function(){
-       location.reload();
-   },5000);*/
+
+   // setTimeout(function(){
+   //     location.reload();
+   // },5000);
+   //
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -50,21 +52,82 @@
   color: #e67e22;
   font-family: Broadway, Helvetica, sans-serif;
 }
+#topSearchInput{
+  display: none;
+  text-align: center;
+  color: #FFFFFF;
+  width: 100%;
+  /*border-radius: 10px;*/
+  padding: 5px;
+  background: #17202a;
+  border: none;
+  border-bottom: 1px solid dimgray;
+
+}
+#topSearchInput:hover{
+  border-bottom: 1px solid #FFFFFF;
+
+}
   </style>
 </head>
 <body>
   <div id="topArea">
   <table width="100%">
-    <td width="70%">
+    <td width="25%">
       <a href="index.php" id="netCar" style="">NetCar</a>
 
     </td>
-    <td width="30%">
-      <div style="text-align: right; ">
-        <a href="login.php" style="color: white; font-size: 12px;"> Login</a>
-        <label style="color: white; "> | </label>
-        <a href="register.php" style="color: white; font-size: 12px;">Register</a>
-      </div>
+
+    <td width="50%">
+
+      <form id="" action="" method="post" style="text-align: center; ">
+
+            <input id="topSearchInput" name="" type="text" title="Enter car year make and model" placeholder="2020 Ford Mustang GT" size="" />
+          </form>
+
+    </td>
+
+    <td width="25%">
+<?php
+// If both Customer and Dealer session does not exit, show -> sign In | Get Started
+if (!isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
+?>
+
+<div style="text-align: right; ">
+  <a href="login.php" style="color: white; font-size: 12px;"> Sign In</a>
+  <label style="color: white; "> | </label>
+  <a href="register.php" style="color: white; font-size: 12px;">Get Started</a>
+</div>
+
+<?php
+}else{
+  // In case both customer and dealer sessions exist
+  // If only the customer session exists -> Sign Out | customer First Lastname
+  if(isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
+?>
+
+<div style="text-align: right;">
+  <a href="logout.php" style="color: white; font-size: 12px;"> Sign Out</a>
+  <label style="color: white; "> | </label>
+  <a href="register.php" style="color: white; font-size: 12px;"><?php echo $_SESSION['nameCust']; ?></a>
+</div>
+
+<?php
+  }
+  // If only the dealer session exists -> Sign Out | dealer First Lastname
+  if(!isset($_SESSION['customerID']) && isset($_SESSION['dealerID'])){
+?>
+
+<div style="text-align: right;">
+  <a href="logout.php" style="color: white; font-size: 12px;"> Sign Out</a>
+  <label style="color: white; "> | </label>
+  <a href="register.php" style="color: white; font-size: 12px;"><?php echo $_SESSION['nameDealer']; ?></a>
+</div>
+
+<?php
+  }
+}
+?>
     </td>
   </table>
 </div>

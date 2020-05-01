@@ -1,9 +1,17 @@
 <?php
+// Inialize session
+session_start();
 
-// Redirect to profile.php
-//header("Location: profile.php");
-
- ?>
+// Check, if the user is already logged in, then jump to the right page
+// Customer
+if (isset($_SESSION['customerID'])){
+header('Location: profile.php');
+}
+// Dealer
+if (isset($_SESSION['dealerID'])){
+header('Location: dealer.php');
+}
+?>
 
  <html>
  <head>
@@ -89,7 +97,7 @@
    <form id="searchForm" action="" method="post">
 
          <input id="" name="email" type="text" title="Enter your email" placeholder="Email@gmail.com" /><br/>
-         <input id="" name="pwd" type="text" title="Enter your account password" placeholder="******" /><br/>
+         <input id="" name="pwd" type="password" title="Enter your account password" placeholder="******" /><br/>
 
          <button id="btnSgnIn" name="signIn" type="submit" value="">Sign In</button>
        </form>
@@ -115,11 +123,14 @@
                      // In case the user is a customer
                      if($userCustomer){
                        // Initialiaze Customer session
-                       // foreach ($data as $value) {
-                       //   // code...
-                       //   echo $value['nameCust']."<br>";
-                       //   echo $value['adrCust']."<br>";
-                       // }
+                       //var_dump($userCustomer);
+                        foreach ($userCustomer as $row) {
+                         // code...
+                         //echo $row['customerID']."<br>";
+                         //we'll start the sessions informations here
+                         $_SESSION['customerID'] = $row['customerID'];
+                         $_SESSION['nameCust'] = $row['nameCust'];
+                       }
 ?>
                         <script> window.location.href = 'profile.php'; </script>
 <?php
@@ -132,7 +143,14 @@
                      // In case the user is a car dealer
                       if($userDealer){
                         // Initialiaze Dealer session
-
+                        //var_dump($userDealer);
+                         foreach ($userDealer as $row) {
+                          // code...
+                          //echo $row['dealerID']."<br>";
+                          //we'll start the sessions informations here
+                          $_SESSION['dealerID'] = $row['dealerID'];
+                          $_SESSION['nameDealer'] = $row['nameDealer'];
+                        }
 ?>
                         <script> window.location.href = 'dealer.php'; </script>
 <?php
