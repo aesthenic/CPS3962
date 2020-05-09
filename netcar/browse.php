@@ -1,17 +1,10 @@
+
 <?php
 // Inialize session
 session_start();
 
-// Check, if the user is already logged in, then jump to the right page
-// Customer
-if (!isset($_SESSION['customerID'])){
-header('Location: login.php');
-}
-// Dealer
-// if (!isset($_SESSION['dealerID'])){
-// header('Location: index.php');
-// }
 ?>
+
 <html>
 <head>
   <title>NetCar</title>
@@ -20,21 +13,10 @@ header('Location: login.php');
 body{
 
 }
-
 #mainBody1{
-  text-align: center;
-  padding: 20px;
-  color: white;
-
-  background-image: url("img/profileCover.jpg"); /* The image used */
-  background-color: #cccccc; /* Used if the image is unavailable */
-  height: 25%; /* You must set a specified height */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-  border-bottom: 1px solid gray;
-
+  margin-top: 50px;
 }
+
  #mainBody2{
    margin: auto;
    background: white;
@@ -42,38 +24,7 @@ body{
    text-align: center;
    box-shadow: 0 8px 6px -6px black;
  }
-#mainBody2 .avatar{
-  margin: auto;
-  width: 200;
-  font-size: 50px;
-  margin-top: 10px;
-  box-sizing: border-box;
-  border-radius: 10px;
-  text-align: center;
-  color: white;
-  padding: 50px;
-  background: gray;
-  border: 1px solid dimgray;
 
-  /*-webkit-box-shadow: 0 15px 10px #777;
-  -moz-box-shadow: 0 15px 10px #777;
-  box-shadow: 0 15px 10px #777;
-  -webkit-transform: rotate(-3deg);
-  -moz-transform: rotate(-3deg);
-  -o-transform: rotate(-3deg);
-  -ms-transform: rotate(-3deg);
-  transform: rotate(-3deg);*/
-
-  box-shadow: 0 8px 6px -6px black;
-
-}
-#mainBody2 .avatarName{
-
-  padding-top: 20;
-  font-size: 20;
-  color: black;
-
- }
 #mainBody2 .mainMenu{
    margin: auto;
    width: 75%;
@@ -128,45 +79,31 @@ body{
   $(document).ready(function(){
     //alert("test");
 
-    // Script to scroll widow until mainmenu
-    $('html, body').animate({
-        scrollTop: $('.stop').offset().top
-    }, 2000);
+    // Car search to input function
+        $('#topSearchInput').keypress(function(event){
+          //alert("test");
 
-    // New cars added
-      $(".mainMenuLink1").click(function(){
-        //alert("test2");
-          //$(".left").load("search.php");
-          // Visit search.php page
-          window.location.href = 'browse.php';
+        // get the value from the form
+    		var topSearchInput = $('#topSearchInput').val();
+        //var hiddenDataCar = $('#hiddenDataCar').val();
+
+        // if ENTER key is pressed
+    	//	if (event.keyCode == 13) {
+        // check that all entries are good to go
+    			if (topSearchInput.length > -1 || event.keyCode == 13){
+    				//alert("");
+          $.post('php/searchEngine.php',{topSearchInput: topSearchInput},
+    	     function(output){
+    		       $('.left').html(output).show();
+    					});
+            // Upon success
+          // JQuery Effects here
+          //$('#hiddenDataCar').val('');
+    		}
 
       });
-      // Inbox
-        $(".mainMenuLink2").click(function(){
-          //alert("test2");
-            $(".left").load("bottom.php");
-
-        });
-        // Wishlink
-          $(".mainMenuLink3").click(function(){
-            //alert("test2");
-              $(".left").load("php/customerWishlist.php");
-
-          });
-          // Appointments
-            $(".mainMenuLink4").click(function(){
-              //alert("test2");
-                $(".left").load("bottom.php");
-
-            });
-            //   //mainMenuLink links click function
-              $(".mainMenuLink5").click(function(){
-                //alert("test2");
-                  $(".left").load("bottom.php");
-
-              });
+    // End
   });
-
 
   </script>
 
@@ -176,56 +113,16 @@ body{
 <?php include ('top.php') ?>
 </div>
 
+<div id="mainBody1"></div>
+
 <div style="background: #FFFFFF; ">
-
-<div id="mainBody1">
-
-</div>
 
 <div id="mainBody2">
 
-  <div class="avatar">
-<?php
- // Generate name initials
-$words = explode(" ", $_SESSION['nameCust']);
-$initials = null;
-foreach ($words as $w) {
-     $initials .= $w[0];
-}
-//
-echo $initials;
-?>
-  </div>
-
-<div class="stop"> </div>
-
-  <div class="avatarName"><?php echo $_SESSION['nameCust']; ?></div>
-
-  <div style="padding:10; border-bottom: 1px solid whitesmoke; ">union, NJ</div>
-
   <div class="mainMenu">
-    <table width="100%">
-      <td width="" class="mainMenuLink1" title="Browse Listed Cars">
 
-                <div>Browse</div>
-      </td>
-      <td width="" class="mainMenuLink2" title="Check Inbox">
+      <?php //main menu control here ?>
 
-                <div>Inbox</div>
-      </td>
-      <td width="" class="mainMenuLink3" title="My Saved Cars">
-
-                <div>Wishlist</div>
-      </td>
-      <td width="" class="mainMenuLink4" title="Appointment Status">
-
-                <div>Appointments</div>
-      </td>
-      <td width="" class="mainMenuLink5" title="My Settings">
-
-                <div>Preferrences</div>
-      </td>
-    </table>
   </div>
 
 </div>
@@ -236,7 +133,19 @@ echo $initials;
   <div class="left">
     <br/>
     <?php
-      // Script to display limited vehicle browsing experience to the customer
+    // // If input received from index.php page exists
+    // if(strlen($_POST['searchInput']) > 1){
+    //   //
+    //
+    //   echo 'searchInput Exists' . $_POST['searchInput'];
+    // } else {
+    //   // code...
+    //   echo 'no exists';
+    //
+    // }
+    ?>
+    <?php
+      // Script to display limited vehicle browsing experience
       $vehiclesLimitedView = new Vehicle();
       $data = $vehiclesLimitedView->vehiclesLimitedView();
 
@@ -264,7 +173,7 @@ echo $initials;
             <table width="100%" style="">
                 <td width="75%">
 
-                  <label style="color: black; font-weight: bold; font-size: 11px ; ">Recent cars added</label>
+                  <label style="color: black; font-weight: bold; font-size: 11px ; ">Some cars you might interested in</label>
 
                 </td>
                 <td width="25%">
@@ -295,8 +204,7 @@ echo $initials;
         }
       }
 
-
-?>
+    ?>
 
   </div>
 
@@ -313,6 +221,7 @@ echo $initials;
       <br/><br/>
       <div style=" font-size: 10; padding: 10; padding-bottom: 10; ">Get a new rim today for a 15% off. Hurry up and call +1(999) 999 9999</div>
     </div>
+
   </div>
 
 

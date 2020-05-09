@@ -7,11 +7,12 @@
    // setTimeout(function(){
    //     location.reload();
    // },5000);
-   //
+
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+</script>
   <style>
   body{
     margin: auto;
@@ -19,9 +20,11 @@
     font-family: 'Comic Neue', cursive;
     font-family: 'Roboto', sans-serif;
     font-family: Arial, Helvetica, sans-serif;
-     font-size: 12px;
+     font-size: 10px;
      /*text-shadow: 2px 2px 4px #000000;*/
      background: whitesmoke;
+     /*background: #333333;
+     text-align: justify;*/
      color: dimgray;
 
   }
@@ -53,7 +56,6 @@
   font-family: Broadway, Helvetica, sans-serif;
 }
 #topSearchInput{
-  display: none;
   text-align: center;
   color: #FFFFFF;
   width: 100%;
@@ -79,12 +81,32 @@
     </td>
 
     <td width="50%">
+      <?php
+      // $uri = $_SERVER['REQUEST_URI'];
+      // echo $uri .'<br>'; // Outputs: URI
+      //
+      // $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+      //
+      // $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+      // echo $url .'<br>'; // Outputs: Full URL
+      //
+      // $query = $_SERVER['QUERY_STRING'];
+      // echo $query .'<br>'; // Outputs: Query String
+      ?>
 
-      <form id="" action="" method="post" style="text-align: center; ">
-
-            <input id="topSearchInput" name="" type="text" title="Enter car year make and model" placeholder="2020 Ford Mustang GT" size="" />
-          </form>
-
+      <?php
+      // Check if page is car search related to display the search bar
+      $currentURI = $_SERVER['REQUEST_URI'];
+      // If current URI is search related
+      if($currentURI == '/netcar/browse.php'){
+        // Display the search bar
+       ?>
+      <form id="" action="browse.php" method="POST" style="text-align: center; ">
+        <input id="topSearchInput" name="topSearchInput" type="text" title="Enter car year make and model" placeholder="2020 Ford Mustang" size="" />
+      </form>
+      <?php
+      }
+       ?>
     </td>
 
     <td width="25%">
@@ -94,7 +116,9 @@ if (!isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
 ?>
 
 <div style="text-align: right; ">
-  <a href="login.php" style="color: white; font-size: 12px;"> Sign In</a>
+  <a href="browse.php" style="color: white; font-size: 12px;">Browse</a>
+  <label style="color: white; "> | </label>
+  <a href="login.php" style="color: white; font-size: 12px;">Sign In</a>
   <label style="color: white; "> | </label>
   <a href="register.php" style="color: white; font-size: 12px;">Get Started</a>
 </div>
@@ -107,7 +131,7 @@ if (!isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
 ?>
 
 <div style="text-align: right;">
-  <a href="logout.php" style="color: white; font-size: 12px;"> Sign Out</a>
+  <a href="logout.php" style="color: white; font-size: 12px;">Sign Out</a>
   <label style="color: white; "> | </label>
   <a href="register.php" style="color: white; font-size: 12px;"><?php echo $_SESSION['nameCust']; ?></a>
 </div>
@@ -119,7 +143,7 @@ if (!isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
 ?>
 
 <div style="text-align: right;">
-  <a href="logout.php" style="color: white; font-size: 12px;"> Sign Out</a>
+  <a href="logout.php" style="color: white; font-size: 12px;">Sign Out</a>
   <label style="color: white; "> | </label>
   <a href="register.php" style="color: white; font-size: 12px;"><?php echo $_SESSION['nameDealer']; ?></a>
 </div>
@@ -131,6 +155,5 @@ if (!isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
     </td>
   </table>
 </div>
-
 </body>
 </html>

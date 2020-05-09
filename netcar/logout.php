@@ -33,6 +33,11 @@ if (!isset($_SESSION['customerID']) && !isset($_SESSION['dealerID'])){
     // Destroy the existing sessions of the dealer
     unset($_SESSION['dealerID']);
     unset($_SESSION['nameDealer']);
+    // If Dealer was listing a car, this car pictures global var may be alive
+    if(isset($_SESSION['thisCarPictures'])){
+      unset($_SESSION['thisCarPictures']);
+    }
+
 ?>
 
 <script> window.location.href = 'login.php'; </script>

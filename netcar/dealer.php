@@ -12,6 +12,7 @@ if (!isset($_SESSION['dealerID'])){
 header('Location: login.php');
 }
 ?>
+
 <html>
 <head>
   <title>NetCar</title>
@@ -80,7 +81,7 @@ body{
 
  }
 #mainBody2 .mainMenu td{
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
   cursor: pointer;
   padding: 15px;
@@ -98,7 +99,7 @@ body{
 #mainBody3{
   margin: auto;
   width: 75%;
-  padding: 5;
+  padding: 5px;
 
 }
  #mainBody3 .left{
@@ -128,32 +129,42 @@ body{
   $(document).ready(function(){
     //alert("test");
 
+    // Script to scroll widow until mainmenu
+    $('html, body').animate({
+        scrollTop: $('.stop').offset().top
+    }, 2000);
+
     // New cars added
       $(".mainMenuLink1").click(function(){
         //alert("test2");
-          $(".left").load("bottom.php");
+          $('body').load("dealer.php");
+
+      });
+      $(".mainMenuLink2").click(function(){
+        //alert("test2");
+          $(".left").load("php/dealerAddCars.php");
 
       });
       // Inbox
-        $(".mainMenuLink2").click(function(){
+        $(".mainMenuLink3").click(function(){
           //alert("test2");
             $(".left").load("bottom.php");
 
         });
-        // Wishlink
-          $(".mainMenuLink3").click(function(){
+        // Stattistics
+          $(".mainMenuLink4").click(function(){
             //alert("test2");
-              $(".left").load("bottom.php");
+              $(".left").load("dealer.php");
 
           });
           // Appointments
-            $(".mainMenuLink4").click(function(){
+            $(".mainMenuLink5").click(function(){
               //alert("test2");
                 $(".left").load("bottom.php");
 
             });
             //   //mainMenuLink links click function
-              $(".mainMenuLink5").click(function(){
+              $(".mainMenuLink6").click(function(){
                 //alert("test2");
                   $(".left").load("bottom.php");
 
@@ -190,29 +201,35 @@ body{
     ?>
   </div>
 
+<div class="stop"> </div>
+
   <div class="avatarName"><?php echo $_SESSION['nameDealer']; ?></div>
 
-  <div style="padding:10; border-bottom: 1px solid whitesmoke; ">union, NJ</div>
+  <div class="avatarInfo" style="padding:10; border-bottom: 1px solid whitesmoke; ">union, NJ</div>
 
   <div class="mainMenu">
     <table width="100%">
-      <td width="" class="mainMenuLink1">
+      <td width="" class="mainMenuLink1" title="Browse my Inventory">
 
-                <div>Add a car to Inventory</div>
+                <div>Inventory</div>
       </td>
-      <td width="" class="mainMenuLink2">
+      <td width="" class="mainMenuLink2" title="Post a car for Sale">
+
+                <div>List a Car</div>
+      </td>
+      <td width="" class="mainMenuLink3" title="Check Inbox">
 
                 <div>Inbox</div>
       </td>
-      <td width="" class="mainMenuLink3">
+      <td width="" class="mainMenuLink4" title="Check my Inventory performance">
 
-                <div>Stattistics</div>
+                <div>Performance</div>
       </td>
-      <td width="" class="mainMenuLink4">
+      <td width="" class="mainMenuLink5" title="Confirm Customer Appointments">
 
                 <div>Appointments</div>
       </td>
-      <td width="" class="mainMenuLink5">
+      <td width="" class="mainMenuLink6" title="My Settings">
 
                 <div>Preferrences</div>
       </td>
@@ -226,45 +243,68 @@ body{
 <div id="mainBody3">
   <div class="left">
     <br/>
-    <table width="100%" style="">
-      <td width="75%">
+<?php
+  // Script to display this dealer inventory
+  $thisDealerCars = new Vehicle();
+  $data = $thisDealerCars->thisDealerCars($_SESSION['dealerID']);
 
-        <label style="color: black; font-weight: bold; font-size: 11px ; ">Cars you might be interested in</label>
+  // If data is returned or not.
+  if(!$data){
+    // If no vehicle listed yet
+?>
 
-      </td>
-      <td width="25%">
-    <class style="text-align: right; float: right; margin-right: 10px;"><a href="" title="Filter" style="color: black; font-weight: bold; font-size: 10px ; ">Filter</a></class>
-      </td>
-    </table>
-    <br/>
+<div class="" style=" background: whitesmoke; border: 1px solid gainsboro; border-radius: 3px; border-bottom: 1px solid gray; width: 98%; ">
 
+  <div class="mainMenuLink2" style="width: 100%; margin: auto; padding-top: 15px; padding-bottom: 15px; color: white; background: #0099FF; text-align: center; cursor: pointer; ">
+    I noticed that you haven't listed any car yet. Click here to start
+  </div>
 
-    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
-      <img src="img/car.jpg" style="width: 100%; "/>
-      <br/><br/>
-      <div style=" font-weight: bold; font-size: 10; padding: 10; ">$150, 000</div>
-    </div>
-
-    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
-      <img src="img/car2.jpg" style="width: 100%; "/>
-      <br/><br/>
-      <div style=" font-weight: bold; font-size: 10; padding: 10; ">$200, 000</div>
-    </div>
-
-    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
-      <img src="img/indexMustang.jpg" style="width: 100%; "/>
-      <br/><br/>
-      <div style=" font-weight: bold; font-size: 10; padding: 10; ">$70, 000</div>
-    </div>
-
-    <div class="" style="float: left; margin: 5px; background: white; border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; width: 45%; ">
-      <img src="img/car3.jpg" style="width: 100%; "/>
-      <br/><br/>
-      <div style=" font-weight: bold; font-size: 10; padding: 10; ">$30, 000</div>
-    </div>
+  <img src="img/thisDealerCarPlaceHolder.png" style="width: 100%; "/>
+  <br/><br/>
+</div>
 
 
+<?php
+  }else {
+    // If this listed at list one car
 
+?>
+        <table width="100%" style="">
+            <td width="75%">
+
+              <label style="color: black; font-weight: bold; font-size: 11px ; ">Cars you listed lately</label>
+
+            </td>
+            <td width="25%">
+              <class style="visibility: hidden; text-align: right; float: right; margin-right: 10px;"><a href="" title="Filter" style="color: black; font-weight: bold; font-size: 10px ; ">Filter</a></class>
+            </td>
+        </table>
+
+        <br/>
+<?php
+    foreach ($data as $row) {
+      // code...
+      //echo $vehicleID = $row['vehicleID'].'<br>';
+?>
+
+
+<a href="carDetails.php?q=<?php echo $row['vehicleID']; ?>" style="text-decoration: none; ">
+<div class="" style="float: left; margin: 5px; background: white; border: 1px solid gainsboro; border-radius: 5px; border-bottom: 1px solid gray; width: 45%; ">
+  <img src="php/upload/<?php echo $row['nameFileVehicle']; ?>" style="width: 100%; "/>
+  <div style="padding: 10px;  ">
+  <div style="color: #000000;  ">  <?php echo $row['yearVehicle'] . " " . $row['makeVehicle'] . " " . $row['modelVehicle']; ?></div>
+  <div style="font-size: 9.5px; padding-top: 10px; padding-bottom: 3px; color: dimgray; ">  $<?php echo $row['sellingPriceVehicle']; ?></div>
+  </div>
+</div>
+</a>
+
+
+<?php
+    }
+  }
+
+
+?>
   </div>
 
 
@@ -277,7 +317,7 @@ body{
     <div class="" style="border: 1px solid whitesmoke; border-radius: 0; border-bottom: 1px solid gray; background: white; ">
       <img src="img/ad.jpg" style="width: 100%; "/>
       <br/><br/>
-      <div style=" font-weight: bold; font-size: 10; padding: 10; padding-bottom: 10; ">Get a new rim today for a 15% off. Hurry up and call +1(999) 999 9999</div>
+      <div style=" font-size: 10; padding: 10; padding-bottom: 10; ">Get a new rim today for a 15% off. Hurry up and call +1(999) 999 9999</div>
     </div>
   </div>
 

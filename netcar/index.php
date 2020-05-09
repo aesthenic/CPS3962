@@ -14,6 +14,22 @@ header('Location: dealer.php');
 ?>
 <html>
 <head>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+   //When doc is ready
+    $(document).ready(function(){
+      //alert("test");
+
+
+      // Search form Empty submission control
+        $("#btnSearch").click(function(){
+          //alert("test2");
+          window.location.href = 'index.php';
+
+        });
+});
+</script>
   <title>Welcome to NetCar</title>
   <style>
 body{
@@ -49,6 +65,7 @@ body{
 
 }
 #btnSearch{
+  color: dimgray;
   background: white;
   padding: 15px;
   border: 1px solid gray;
@@ -60,7 +77,6 @@ body{
 #btnSearch:hover{
   background: #0099FF;
   padding: 15px;
-  color: dimgray;
   border: 1px solid #0066FF;
   margin-left: -5px;
   cursor: pointer;
@@ -106,11 +122,11 @@ body{
   <div id="searchArea">
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <label> Purchase your dream car today</label><br/><br/><br/>
-  <form id="searchForm" action="" method="post">
+  <form id="searchForm" action="#" method="POST">
 
-        <input id="searchInput" type="text" title="Enter car year make and model" placeholder="2020 Ford Mustang" size="55%" />
+        <input id="searchInput" name="searchInput" type="text" title="Enter car year make and model" placeholder="2020 Ford Mustang" size="55%" />
 
-        <input id="btnSearch" type="button" value="Search" />
+        <button id="btnSearch" name="search" type="submit" value="">Search</button>
 
 
       </form>

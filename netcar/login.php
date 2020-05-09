@@ -75,6 +75,7 @@ header('Location: dealer.php');
  }
  #btnSgnIn:hover{
    border: 1px solid gray;
+   background: #228b22;
 
  }
   #indBottom{

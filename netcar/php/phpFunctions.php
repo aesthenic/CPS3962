@@ -1,3 +1,10 @@
+<?php
+/*
+List of Classes so far
+DBConnection - Vehicle - Customer - Dealer
+*/
+
+?>
 
 <?php
 // Class that gets connect to the DB
@@ -32,6 +39,223 @@ class DBConnection{
 
       // Close the DB Connection
       mysqli_close($this->conn);
+    }
+
+}
+?>
+
+<?php
+// Class
+class Vehicle extends DBConnection{
+  // Private members
+
+
+
+
+  // Public members
+  // Method allowing a car Dealer to list a Car
+  public function listACar($yearCar, $nameCar, $modelCar, $typeCar, $extcolorCar, $intColorCar, $sellPriceCar, $vinCar, $descripCar, $hiddenDataCar, $dealerID){
+    // 3 queries here: $sql1 - $sql2
+    $statusVehicle = 1;
+    //
+    // echo $yearCar .'<br>';
+    // echo $nameCar .'<br>';
+    // echo $modelCar .'<br>';
+    // echo $typeCar .'<br>';
+    // echo $extcolorCar .'<br>';
+    // echo $intColorCar .'<br>';
+    // echo $sellPriceCar .'<br>';
+    // echo $vinCar .'<br>';
+    // echo $descripCar .'<br>';
+    // echo $hiddenDataCar .'<br>';
+    // echo  $dealerID .'<br>';
+    //
+    $sql1 = "INSERT INTO `vehicle`( `vinVehicle`, `yearVehicle`, `makeVehicle`, `modelVehicle`, `typeVehicle`, `exteriorColorVehicle`, `interiorColorVehicle`, `sellingPriceVehicle`, `desriptionVehicle`, `statusVehicle`, `dealerPostingVehicle`)
+    VALUES ('$vinCar', '$yearCar', '$nameCar', '$modelCar', '$typeCar', '$extcolorCar','$intColorCar', '$sellPriceCar', '$descripCar', '$statusVehicle', '$dealerID')";
+    // Method dbConnect of the class DBConnection
+    $result1 = $this->dbConnect()->query($sql1);
+    // Close the DB Connection
+    $this->dbClose();
+    // If the query was successful, then we insert the files name and insert in the file table
+    if($result1){
+      // Get the vehicle just list ID dba_firstkey
+      $sql2 = "SELECT * FROM `vehicle` WHERE `dealerPostingVehicle` = '$dealerID' ORDER BY  `vehicleID` DESC";
+      //
+      $result2 = $this->dbConnect()->query($sql2);
+      $numRows = $result2->num_rows;
+      // Close the DB Connection
+      $this->dbClose();
+      // In case the user already exists
+      if($numRows > 0){
+        // Now that we have the last car posted ID, we insert its files names in the file table
+        if($row = $result2->fetch_assoc()){
+
+          $thisVehicleID = $row['vehicleID'];
+
+              //Make sure that the session $hiddenDataCar variable actually exists!
+              if($hiddenDataCar){
+
+                //explode function breaks an string into array
+                // Break the long string into array based on the coma
+                   $hiddenDataCarArr =explode(",", $hiddenDataCar);
+                //Loop through it like any other array.
+                for($i=0; $i < sizeof($hiddenDataCarArr) - 1; $i++){
+
+                  //echo $hiddenDataCarArr[$i] .'<br>';
+                    //Call the method that insert each file into the file table.
+                    $this->insertThisFile($hiddenDataCarArr[$i], $thisVehicleID, $dealerID);
+                }
+                  // Then clear pictures ession value
+                  $_SESSION['thisCarPictures'] = '';
+                  // return true;
+              }
+        }
+    }
+}else {
+  // code...
+  ?>
+          <script> alert("Something went wrong! Please check your Internet connection"); </script>
+  <?php
+      }
+}
+
+    // Method to save a file of a specific car in the DB
+    public function insertThisFile($fileVehicle, $thisVehicleID, $dealerID){
+
+      //
+      $sql = "INSERT INTO `filevehicle`(`nameFileVehicle`, `vehicleID`, `dealerID`) VALUES ('$fileVehicle', '$thisVehicleID', '$dealerID')";
+      // Method dbConnect of the class DBConnection
+      $this->dbConnect()->query($sql);
+      // Close the DB Connection
+      // I didn't close this connection because of multiple persistence request.
+      //$this->dbClose();
+    }
+
+
+    // Method to fetch this dealer cars from DB
+    public function thisDealerCars($dealerID){
+      //
+      $data = null;
+      //
+      $sql1 = "SELECT DISTINCT *
+              FROM `dealer`, `vehicle`,`filevehicle`
+              WHERE fileVehicle.dealerID = dealer.dealerID
+              AND vehicle.vehicleID = filevehicle.vehicleID
+              AND dealer.`dealerID` = '$dealerID'
+              ORDER BY RAND()
+              LIMIT 0, 200";
+      //
+      $result = $this->dbConnect()->query($sql1);
+      $numRows = $result->num_rows;
+      // Close the DB Connection
+      $this->dbClose();
+      // In case a row is found
+      if($numRows > 0){
+        //
+        while($row = $result->fetch_assoc()){
+        $data[] = $row;
+        // return $data;
+      }
+      }
+
+      return $data;
+    }
+
+
+    // Method to fetch limited cars browsing from the DB
+    public function vehiclesLimitedView(){
+      //
+      $data = null;
+      //
+      $sql1 = "SELECT DISTINCT *
+              FROM `dealer`, `vehicle`,`filevehicle`
+              WHERE fileVehicle.dealerID = dealer.dealerID
+              AND vehicle.vehicleID = filevehicle.vehicleID
+              ORDER BY RAND()
+              LIMIT 0, 100";
+      //
+      $result = $this->dbConnect()->query($sql1);
+      $numRows = $result->num_rows;
+      // Close the DB Connection
+      $this->dbClose();
+      // In case a row is found
+      if($numRows > 0){
+        //
+        while($row = $result->fetch_assoc()){
+        $data[] = $row;
+        // return $data;
+      }
+      }
+
+      return $data;
+    }
+
+
+// Method to fetch limited cars browsing from the DB
+public function searchVehicle($inputValue){
+  // Var declaration
+  $data = null;
+  $yearCar = '';
+  $makeCar = '';
+  $modelCar = '';
+  // Retrieve from the input values
+  $arr = explode(" ",$inputValue);
+  $yearCar = $arr[0];
+  //
+  if(isset($arr[1])){  $makeCar = $arr[1]; }
+
+  if(isset($arr[2])){  $modelCar = $arr[2]; }
+  //
+  $sql1 = "SELECT DISTINCT *
+          FROM dealer, `vehicle`,`filevehicle`
+          WHERE fileVehicle.dealerID = dealer.dealerID
+          AND vehicle.vehicleID = filevehicle.vehicleID
+          AND `vehicle`.`yearVehicle` LIKE '$yearCar%'
+          AND `vehicle`.`makeVehicle` LIKE '$makeCar%'
+          AND `vehicle`.`modelVehicle` LIKE '$modelCar%'
+          LIMIT 0, 100";
+  //
+  $result = $this->dbConnect()->query($sql1);
+  $numRows = $result->num_rows;
+  // Close the DB Connection
+  $this->dbClose();
+  // In case a row is found
+  if($numRows > 0){
+    //
+    while($row = $result->fetch_assoc()){
+    $data[] = $row;
+    // return $data;
+  }
+  }
+
+  return $data;
+}
+
+    // Method to retrieve a specific car details
+    public function getThisCarDetails($vehicleID){
+                //
+                $data = null;
+                //
+                $sql1 = "SELECT *
+                          FROM `dealer`, `vehicle`,`filevehicle`
+                          WHERE fileVehicle.dealerID = dealer.dealerID
+                          AND vehicle.vehicleID = filevehicle.vehicleID
+                          AND `vehicle`.`vehicleID` = '$vehicleID'";
+                //
+                $result = $this->dbConnect()->query($sql1);
+                $numRows = $result->num_rows;
+                // Close the DB Connection
+                $this->dbClose();
+                // In case a row is found
+                if($numRows > 0){
+                  //
+                  if($row = $result->fetch_assoc()){
+                  $data[] = $row;
+                  // return $data;
+                }
+                }
+
+                return $data;
     }
 
 }

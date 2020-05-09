@@ -57,7 +57,7 @@ header('Location: dealer.php');
   padding: 15px;
   text-align: center;
   background: whitesmoke;
-  width: 100%
+  width: 65%;
   margin: 5px;
 }
 #btnSgnUp{
